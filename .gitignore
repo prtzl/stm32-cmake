@@ -1,0 +1,15 @@
+/*
+
+!.gitignore
+!README.md
+!default.nix
+!.envrc
+!Makefile
+!CMakeLists.txt
+!gcc-arm-none-eabi.cmake
+!Core
+!Drivers
+!CubeMX
+!Project
+!.mxproject
+!STM32-project-template.ioc
