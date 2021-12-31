@@ -1,10 +1,11 @@
 #pragma once
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-void projectMain();
+    void projectMain();
 
 #ifdef __cplusplus
 }
