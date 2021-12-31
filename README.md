@@ -31,3 +31,9 @@ make clean
 ```shell
 make cmake
 ```
+
+## Format all source files in root folder
+
+```shell
+make format -j<number of threads>
+```
