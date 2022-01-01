@@ -3,20 +3,19 @@ cmake_minimum_required(VERSION 3.12)
 ###############################################################################
 # Set project name and source code folder location
 project(sample-f407vg)
-set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/<Project Folder>)
+set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Project)
 
 # Set microcontroller information
-set(MCU_FAMILY STM32<FAMILY>)
-set(MCU_MODEL STM32<MODEL>)
+set(MCU_FAMILY STM32F4xx)
+set(MCU_MODEL STM32F407xx)
 set(CPU_PARAMETERS
-    -mcpu=cortex-m<CORE>
+    -mcpu=cortex-m4
     -mthumb
-    # Does it have an FPU?
     -mfpu=fpv4-sp-d16
     -mfloat-abi=hard)
 
-set(STARTUP_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/<STARTUP>)
-set(MCU_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/<LINKER>)
+set(STARTUP_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/startup_stm32f407xx.s)
+set(MCU_LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/STM32F407VGTx_FLASH.ld)
 
 ###############################################################################
 set(EXECUTABLE ${CMAKE_PROJECT_NAME})

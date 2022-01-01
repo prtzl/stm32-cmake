@@ -2,17 +2,16 @@
 
 # GIT
 !.gitignore
-!README.md
 
-# NIX
-!default.nix
-!.envrc
+# PROJECT
+!Core
+!Drivers
+!CubeMX
+!Project
+!.mxproject
+!STM32-project-template.ioc
 
 # TOOLS
 !Makefile
 !CMakeLists.txt
 !gcc-arm-none-eabi.cmake
-!.clang-format
-
-# EXAMPLE
-!Example

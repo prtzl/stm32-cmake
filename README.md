@@ -10,6 +10,9 @@ gcc-arm-embedded
 clang-tools (optional)
 ```
 
+## Example
+You can utilize everything in root of the repository. `Example` folder has links to `Makefile` and `gcc-arm-none-eabi.cmake`, but its own `CMakeLists.txt`.
+
 ## Compile project
 
 Use number of threads that you want to use
