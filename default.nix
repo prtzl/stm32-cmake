@@ -1,8 +1,7 @@
-with import <nixpkgs> {};
+with (import <nixpkgs> {});
 
-pkgs.stdenv.mkDerivation {
-  pname = "STM32";
-  version = "1";
+stdenv.mkDerivation {
+  name = "STM32";
 
   nativeBuildInputs = with pkgs; [
     clang-tools
