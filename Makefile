@@ -2,7 +2,7 @@
 
 BUILD_DIR := build
 BUILD_TYPE ?= Debug
-DUMP ?= FALSE
+DUMP_ASM ?= OFF
 
 all: build
 
@@ -12,7 +12,7 @@ ${BUILD_DIR}/Makefile:
 		-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 		-DCMAKE_TOOLCHAIN_FILE=gcc-arm-none-eabi.cmake \
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-		-DDUMP_ASM=${DUMP}
+		-DDUMP_ASM=${DUMP_ASM}
 
 cmake: ${BUILD_DIR}/Makefile
 

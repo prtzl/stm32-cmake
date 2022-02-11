@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.12)
 project(sample-f407vg)
 set(PROJECT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/<Project Folder>)
 
+option(DUMP_ASM "Create full assembly of final executable" OFF)
+
 # Set microcontroller information
 set(MCU_FAMILY STM32<FAMILY>)
 set(MCU_MODEL STM32<MODEL>)
