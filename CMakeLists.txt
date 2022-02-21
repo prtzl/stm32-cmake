@@ -93,7 +93,6 @@ target_link_options(${EXECUTABLE} PRIVATE
     -lc
     -lm
     -lstdc++
-    -lsupc++
     -Wl,--end-group
     -Wl,--print-memory-usage)
 
