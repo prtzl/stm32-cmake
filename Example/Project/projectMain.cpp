@@ -1,16 +1,11 @@
-// STM32 library will trip on these warnings
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#pragma GCC diagnostic ignored "-Wshadow"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-
 #include "main.h"
 #include <Project/projectMain.h>
 
 struct Led
 {
-    explicit Led(GPIO_TypeDef* gpio, uint16_t pin)
-        : gpio(gpio)
-        , pin(pin)
+    explicit Led(GPIO_TypeDef* t_gpio, uint16_t t_pin)
+        : gpio(t_gpio)
+        , pin(t_pin)
     {
     }
     void on()

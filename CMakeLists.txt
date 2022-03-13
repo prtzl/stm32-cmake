@@ -59,8 +59,10 @@ target_compile_definitions(${EXECUTABLE} PRIVATE
     ${MCU_MODEL}
     USE_HAL_DRIVER)
 
+target_include_directories(${EXECUTABLE} SYSTEM PRIVATE
+    ${STM32CUBEMX_INCLUDE_DIRECTORIES})
+
 target_include_directories(${EXECUTABLE} PRIVATE
-    ${STM32CUBEMX_INCLUDE_DIRECTORIES}
     ${PROJECT_INCLUDE_DIRECTORIES})
 
 ###############################################################################
