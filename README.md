@@ -44,11 +44,11 @@ arm-none-eabi-binutils (utilities)
 **NOTE**. If your cmake fails to "compile a simple test program" while running the `Example`, then you might not have `newlib` installed (one of the errors I have encountered). In the examples above, fedora and arch carry the package separately, but ubuntu has it all in one.
 
 ## Example
-You can utilize everything in root of the repository. `Example` folder has links to `Makefile` and `gcc-arm-none-eabi.cmake`, but its own `CMakeLists.txt`.
+You can utilize everything in root of the repository. [Example](Example) folder has links to [Makefile](Makefile) and `gcc-arm-none-eabi.cmake`, but its own [CMakeLists.txt](Example/CMakeLists.txt)`.
 
 ## Workflow
 
-Output files will be located, by default, in `build`. You can change that in the `Makefile`.
+Output files will be located, by default, in `build`. You can change that with `BUILD_DIR` parameter in the [Makefile](Makefile).
 
 Just run cmake:
 
