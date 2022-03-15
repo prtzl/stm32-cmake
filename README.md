@@ -46,29 +46,29 @@ arm-none-eabi-binutils (utilities)
 ## Example
 You can utilize everything in root of the repository. `Example` folder has links to `Makefile` and `gcc-arm-none-eabi.cmake`, but its own `CMakeLists.txt`.
 
-## Compile project
+## Workflow
 
-Use number of threads that you want to use
+Output files will be located, by default, in `build`. You can change that in the `Makefile`.
 
-```shell
-make -j<number of threads>
-```
-
-Binary is located in `build` folder.
-
-## Clean project
-
-```shell
-make clean
-```
-
-## Just set up cmake
+Just run cmake:
 
 ```shell
 make cmake
 ```
 
-## Format all source files in root folder
+Run cmake and build:
+
+```shell
+make -j<number of threads>
+```
+
+Clean:
+
+```shell
+make clean
+```
+
+Format all source files
 
 ```shell
 make format -j<number of threads>
