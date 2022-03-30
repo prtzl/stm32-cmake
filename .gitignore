@@ -13,6 +13,7 @@
 !CMakeLists.txt
 !gcc-arm-none-eabi.cmake
 !.clang-format
+!Dockerfile
 
 # EXAMPLE
 !Example

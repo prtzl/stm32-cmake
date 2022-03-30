@@ -10,6 +10,7 @@
 !Project
 !.mxproject
 !STM32-project-template.ioc
+!Dockerfile
 
 # TOOLS
 !Makefile
