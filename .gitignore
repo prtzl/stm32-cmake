@@ -13,6 +13,12 @@
 !CMakeLists.txt
 !gcc-arm-none-eabi.cmake
 !.clang-format
+!Dockerfile
+!docker-compose.yml
 
 # EXAMPLE
-!Example
+!Core
+!Drivers
+!CubeMX
+!Project
+!STM32-project-template.ioc

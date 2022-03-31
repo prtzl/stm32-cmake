@@ -1,9 +1,15 @@
-.PHONY: all build cmake clean format
+.PHONY: all build build-container cmake format format-container shell image container clean clean-image clean-all
+############################### Native Makefile ###############################
 
-BUILD_DIR := build
+BUILD_DIR ?= build
 BUILD_TYPE ?= Debug
 
 all: build
+
+build: cmake
+	$(MAKE) -C ${BUILD_DIR} --no-print-directory
+
+cmake: ${BUILD_DIR}/Makefile
 
 ${BUILD_DIR}/Makefile:
 	cmake \
@@ -13,15 +19,62 @@ ${BUILD_DIR}/Makefile:
 		-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 		-DDUMP_ASM=OFF
 
-cmake: ${BUILD_DIR}/Makefile
-
-build: cmake
-	$(MAKE) -C ${BUILD_DIR} --no-print-directory
-
 SRCS := $(shell find . -name '*.[ch]' -or -name '*.[ch]pp')
+format: $(addsuffix .format,${SRCS})
 %.format: %
 	clang-format -i $<
-format: $(addsuffix .format, ${SRCS})
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf ${BUILD_DIR}
+
+################################## Container ##################################
+
+UID ?= $(shell id -u)
+GID ?= $(shell id -g)
+USER ?= $(shell id -un)
+GROUP ?= $(shell id -gn)
+WORKDIR := ${PWD}
+
+CONTAINER_TOOL ?= docker
+CONTAINER_FILE := Dockerfile
+IMAGE_NAME := fedora-arm-embedded-dev
+CONTAINER_NAME := fedora-arm-embedded-dev
+
+NEED_IMAGE = $(shell $(CONTAINER_TOOL) image inspect ${IMAGE_NAME} 2> /dev/null > /dev/null || echo image)
+NEED_CONTAINER = $(shell $(CONTAINER_TOOL) container inspect ${CONTAINER_NAME} 2> /dev/null > /dev/null || echo container)
+PODMAN_ARG = $(shell if [ "$(CONTAINER_TOOL)" = "podman" ];then echo "--userns=keep-id"; else echo ""; fi)
+CONTAINER_RUN = $(CONTAINER_TOOL) run \
+					--name ${CONTAINER_NAME} \
+					--rm \
+					-it \
+					$(PODMAN_ARG) \
+					-v ${PWD}:/workdir \
+					--workdir /workdir \
+					--security-opt label=disable \
+					--hostname ${CONTAINER_NAME} \
+					${IMAGE_NAME}
+
+build-container: ${NEED_IMAGE}
+	${CONTAINER_RUN} bash -lc 'make -j$(shell nproc)'
+
+format-container: ${NEED_CONTAINER}
+	${CONTAINER_RUN} bash -lc 'make format -j$(shell nproc)'
+
+shell: ${NEED_CONTAINER}
+	${CONTAINER_RUN} bash -l
+
+image: ${CONTAINER_FILE}
+	$(CONTAINER_TOOL) build \
+		-t ${IMAGE_NAME} \
+		-f=${CONTAINER_FILE} \
+		--build-arg UID=$(UID) \
+		--build-arg GID=$(GID) \
+		--build-arg USERNAME=$(USER) \
+		--build-arg GROUPNAME=$(GROUP) \
+		.
+
+clean-image:
+	$(CONTAINER_TOOL) container rm -f ${CONTAINER_NAME} 2> /dev/null > /dev/null || true
+	$(CONTAINER_TOOL) image rmi -f ${IMAGE_NAME} 2> /dev/null > /dev/null || true
+
+clean-all: clean clean-image
