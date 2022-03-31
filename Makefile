@@ -1,19 +1,5 @@
-.PHONY: all build build-container cmake format format-container shell image container stop clean clean-image clean-all
-
-UID ?= $(shell id -u)
-GID ?= $(shell id -g)
-USER ?= $(shell id -un)
-GROUP ?= $(shell id -gn)
-WORKDIR := ${PWD}
-
-CONTAINER_TOOL ?= docker
-CONTAINER_FILE := Dockerfile
-IMAGE_NAME := fedora-arm-embedded-dev
-CONTAINER_NAME := fedora-arm-embedded-dev
-
-NEED_IMAGE = $(shell $(CONTAINER_TOOL) image inspect ${IMAGE_NAME} 2> /dev/null > /dev/null || echo image)
-NEED_CONTAINER = $(shell $(CONTAINER_TOOL) container inspect ${CONTAINER_NAME} 2> /dev/null > /dev/null || echo container)
-PODMAN_ARG = $(shell if [ "$(CONTAINER_TOOL)" = "podman" ];then echo "--userns=keep-id"; else echo ""; fi)
+.PHONY: all build build-container cmake format format-container shell image container clean clean-image clean-all
+############################### Native Makefile ###############################
 
 BUILD_DIR ?= build
 BUILD_TYPE ?= Debug
@@ -38,14 +24,44 @@ format: $(addsuffix .format,${SRCS})
 %.format: %
 	clang-format -i $<
 
-build-container: ${NEED_CONTAINER}
-	$(CONTAINER_TOOL) exec -it ${CONTAINER_NAME} bash -lc 'make build -j$(shell nproc)'
+clean:
+	rm -rf ${BUILD_DIR}
+
+################################## Container ##################################
+
+UID ?= $(shell id -u)
+GID ?= $(shell id -g)
+USER ?= $(shell id -un)
+GROUP ?= $(shell id -gn)
+WORKDIR := ${PWD}
+
+CONTAINER_TOOL ?= docker
+CONTAINER_FILE := Dockerfile
+IMAGE_NAME := fedora-arm-embedded-dev
+CONTAINER_NAME := fedora-arm-embedded-dev
+
+NEED_IMAGE = $(shell $(CONTAINER_TOOL) image inspect ${IMAGE_NAME} 2> /dev/null > /dev/null || echo image)
+NEED_CONTAINER = $(shell $(CONTAINER_TOOL) container inspect ${CONTAINER_NAME} 2> /dev/null > /dev/null || echo container)
+PODMAN_ARG = $(shell if [ "$(CONTAINER_TOOL)" = "podman" ];then echo "--userns=keep-id"; else echo ""; fi)
+CONTAINER_RUN = $(CONTAINER_TOOL) run \
+					--name ${CONTAINER_NAME} \
+					--rm \
+					-it \
+					$(PODMAN_ARG) \
+					-v ${PWD}:/workdir \
+					--workdir /workdir \
+					--security-opt label=disable \
+					--hostname ${CONTAINER_NAME} \
+					${IMAGE_NAME}
+
+build-container: ${NEED_IMAGE}
+	${CONTAINER_RUN} bash -lc 'make -j$(shell nproc)'
 
 format-container: ${NEED_CONTAINER}
-	$(CONTAINER_TOOL) exec -it ${CONTAINER_NAME} bash -lc 'make format -j$(shell nproc)'
+	${CONTAINER_RUN} bash -lc 'make format -j$(shell nproc)'
 
 shell: ${NEED_CONTAINER}
-	$(CONTAINER_TOOL) exec -it ${CONTAINER_NAME} bash -l
+	${CONTAINER_RUN} bash -l
 
 image: ${CONTAINER_FILE}
 	$(CONTAINER_TOOL) build \
@@ -57,27 +73,8 @@ image: ${CONTAINER_FILE}
 		--build-arg GROUPNAME=$(GROUP) \
 		.
 
-container: ${NEED_IMAGE}
-	$(CONTAINER_TOOL) run \
-		--name ${CONTAINER_NAME} \
-		--rm \
-		--detach \
-		$(PODMAN_ARG) \
-		-v ${HOME}:${HOME} \
-		--workdir ${WORKDIR} \
-		--security-opt label=disable \
-		--hostname ${CONTAINER_NAME} \
-		${IMAGE_NAME} \
-		sleep infinity
-
-stop:
-	$(CONTAINER_TOOL) stop -t 1 ${CONTAINER_NAME} 2> /dev/null > /dev/null || true
+clean-image:
 	$(CONTAINER_TOOL) container rm -f ${CONTAINER_NAME} 2> /dev/null > /dev/null || true
-
-clean:
-	rm -rf ${BUILD_DIR}
-
-clean-image: stop
 	$(CONTAINER_TOOL) image rmi -f ${IMAGE_NAME} 2> /dev/null > /dev/null || true
 
 clean-all: clean clean-image
