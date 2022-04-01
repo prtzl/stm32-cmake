@@ -15,6 +15,7 @@
 !.clang-format
 !Dockerfile
 !docker-compose.yml
+!.dockerignore
 
 # EXAMPLE
 !Core

@@ -7,6 +7,13 @@ I don't expect you to use all of the files found here or all the lines in the co
 
 I will also try to make this repository as cross platform as possible.  
 
+This repository holds all the possible tools for developing STM32 projects. Root of the repository also represents an example project for `STM32F407VG`.  
+Project is configured with CMake and is built natively or with container.  
+
+I don't expect you to use all of the files found here or all the lines in the configuration files (Makefile, CMakeLists.txt, etc.), so make sure to remove all that you don't need for your project.  
+
+I will also try to make this repository as cross platform as possible.  
+
 ## Dependencies
 
 For native development on your computer install the following packages:
