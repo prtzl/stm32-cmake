@@ -55,17 +55,17 @@ CONTAINER_NAME := fedora-arm-embedded-dev
 
 NEED_IMAGE = $(shell $(CONTAINER_TOOL) image inspect ${IMAGE_NAME} 2> /dev/null > /dev/null || echo image)
 NEED_CONTAINER = $(shell $(CONTAINER_TOOL) container inspect ${CONTAINER_NAME} 2> /dev/null > /dev/null || echo container)
-PODMAN_ARG = $(shell if [ "$(CONTAINER_TOOL)" = "podman" ];then echo "--userns=keep-id"; else echo ""; fi)
+PODMAN_ARG = $(if $(filter $(CONTAINER_TOOL), podman),--userns=keep-id,)
 CONTAINER_RUN = $(CONTAINER_TOOL) run \
-					--name ${CONTAINER_NAME} \
-					--rm \
-					-it \
-					$(PODMAN_ARG) \
-					-v ${PWD}:/workdir \
-					--workdir /workdir \
-					--security-opt label=disable \
-					--hostname ${CONTAINER_NAME} \
-					${IMAGE_NAME}
+				--name ${CONTAINER_NAME} \
+				--rm \
+				-it \
+				$(PODMAN_ARG) \
+				-v ${PWD}:/workdir \
+				--workdir /workdir \
+				--security-opt label=disable \
+				--hostname ${CONTAINER_NAME} \
+				${IMAGE_NAME}
 
 build-container: ${NEED_IMAGE}
 	${CONTAINER_RUN} bash -lc 'make -j$(shell nproc)'
