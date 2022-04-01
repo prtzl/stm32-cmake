@@ -3,6 +3,18 @@
 
 BUILD_DIR ?= build
 BUILD_TYPE ?= Debug
+PLATFORM = $(OS)
+ifeq ($(PLATFORM),Windows_NT)
+	BUILD_SYSTEM ?= MinGW Makefiles
+else
+	UNAME := $(shell uname -s)
+	ifeq ($(UNAME),Linux)
+		BUILD_SYSTEM ?= Unix Makefiles
+	else
+		@echo "Unsuported platform"
+		exit 1
+	endif
+endif
 
 all: build
 
@@ -13,6 +25,7 @@ cmake: ${BUILD_DIR}/Makefile
 
 ${BUILD_DIR}/Makefile:
 	cmake \
+		-G "$(BUILD_SYSTEM)" \
 		-B${BUILD_DIR} \
 		-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 		-DCMAKE_TOOLCHAIN_FILE=gcc-arm-none-eabi.cmake \
