@@ -69,6 +69,8 @@ Following targets are available:
 
 Run `<docker/podman> container prune` and enter `y` to remove any leftover containers.
 
+**NOTE:** building in container with makefile on Windows 10 is currently not working, use [docker-compose](#Using docker-compose).
+
 ### Using docker-compose
 
 First build the image:
