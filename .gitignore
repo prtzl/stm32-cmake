@@ -23,3 +23,7 @@
 !CubeMX
 !Project
 !STM32-project-template.ioc
+!/.vscode
+/.vscode/*
+!/.vscode/tasks.json
+!/.vscode/c_cpp_properties.json
