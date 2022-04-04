@@ -1,4 +1,4 @@
-.PHONY: all build build-container cmake format format-container shell image container clean clean-image clean-all
+.PHONY: all build build-container cmake format format-container shell image build-container clean clean-image clean-all
 ############################### Native Makefile ###############################
 
 BUILD_DIR ?= build

@@ -35,9 +35,9 @@ You can download arm-none-eabi toolchain from [website](https://developer.arm.co
 For reproducible development environment use the provided [container](Dockerfile). It installs the latest gcc-arm-embedded toolchain from ARMs website.
 
 You can use the same [Makefile](Makefile) to build container image and your project. Refer to [workflow](#workflow) for instructions.  
-There is also a `docker-compose.yml`, which you can use without `make` installed. Refer to [workflow](#workflow) for instructions.  
+There is also a `docker-compose.yml`, which you can use if you don't have `make` installed. Refer to [workflow](#workflow) for instructions.  
 
-Default container manager is [podman](https://podman.io/). You can also use the more popular [docker](https://www.docker.com/) as well, as the syntax is mostly the same. You can read on the differences between the two [here](https://phoenixnap.com/kb/podman-vs-docker).  
+Default container manager is [docker](https://www.docker.com/). Everything is also compatible with [podman](https://podman.io/) as the syntax is mostly the same. You can read on the differences between the two [here](https://phoenixnap.com/kb/podman-vs-docker).  
 
 Tested with docker (`20.10.9`), podman (`3.4.3`), docker-compose (`1.29.2`) on Fedora 35.
 
@@ -69,7 +69,6 @@ Following targets are available:
 `make clean`: remove build folder.  
 `make build-container`: (re)build the container image, run container to build project using container.  
 `make image`: (re)build the container image.  
-`make container`: run the container.  
 `make shell`: run container and connect to shell, exit with `Ctrl+D` or `exit` command.  
 `make clean-image`: remove container and image.  
 `make clean-all`: remove build folder, remove container, remove image.  
