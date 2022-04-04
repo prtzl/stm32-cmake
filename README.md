@@ -1,4 +1,4 @@
-# BIG STM32 project template
+# STM32 project template with CMake
 
 This repository holds all the possible tools for developing STM32 projects. Root of the repository also represents an example project for `STM32F407VG`.  
 Project is configured with CMake and is built natively or with container.  
