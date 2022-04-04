@@ -5,7 +5,7 @@
 !README.md
 
 # NIX
-!default.nix
+!*.nix
 !.envrc
 
 # TOOLS
