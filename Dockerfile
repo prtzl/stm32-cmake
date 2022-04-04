@@ -20,6 +20,7 @@ ARG UID
 ARG GID
 ARG USERNAME
 ARG GROUPNAME
+RUN groupadd --gid $GID $GROUPNAME
 RUN useradd --uid $UID --gid $GID $USERNAME
 RUN usermod --append --groups $GROUPNAME $USERNAME
 RUN usermod --shell /bin/bash $USERNAME
