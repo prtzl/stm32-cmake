@@ -1,5 +1,7 @@
 #include "main.h"
 #include <Project/projectMain.h>
+#include <array>
+#include <span>
 
 struct Led
 {
@@ -33,6 +35,10 @@ private:
 void projectMain()
 {
     Led led(GPIOD, GPIO_PIN_15);
+
+    // Newer C++ features
+    constexpr auto arr = std::to_array({1, 2, 3, 4, 5});
+    auto view = std::span(arr);
 
     while (true)
     {
