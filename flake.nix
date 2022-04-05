@@ -24,17 +24,17 @@
                         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
                         -DCMAKE_TOOLCHAIN_FILE=gcc-arm-none-eabi.cmake \
                         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-                        -DDUMP_ASM=OFF
+                        -DDUMP_ASM=ON
                     cmake --build ${CMAKE_BUILD_DIR}
                 '';
                 installPhase = ''
                     mkdir -p $out
-                    cp ${CMAKE_BUILD_DIR}/*.bin ${CMAKE_BUILD_DIR}/*.elf ${CMAKE_BUILD_DIR}/compile_commands.json $out
+                    cp ${CMAKE_BUILD_DIR}/*.bin ${CMAKE_BUILD_DIR}/*.elf ${CMAKE_BUILD_DIR}/*.s $out
                 '';
             };
             defaultPackage.${system} = self.sample-f407vg;
             devShell.${system} = pkgs.mkShell {
-                nativeBuildInputs = [ self.sample-f407vg.nativeBuildInputs pkgs.gnumake];
+                nativeBuildInputs = [ self.sample-f407vg.nativeBuildInputs pkgs.gnumake ];
             };
         };
 }
