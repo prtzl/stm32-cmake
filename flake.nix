@@ -12,11 +12,19 @@
                 pname = "sample-f407vg";
                 version = "0.0.1";
                 src = ./.;
+
                 nativeBuildInputs = [ pkgs.cmake pkgs.ninja pkgs.gcc-arm-embedded ];
+
+                dontUseCmakeConfigure = true;
+                dontPatch = true;
+                dontFixup = true;
+                dontStrip = true;
+                dontPatchELF = true;
+
                 CMAKE_BUILD_SYSTEM = "Ninja";
                 CMAKE_BUILD_DIR = "build";
                 CMAKE_BUILD_TYPE = "Debug";
-                dontUseCmakeConfigure = true;
+
                 buildPhase = ''
                     cmake \
                         -G "${CMAKE_BUILD_SYSTEM}" \
@@ -27,14 +35,17 @@
                         -DDUMP_ASM=ON
                     cmake --build ${CMAKE_BUILD_DIR}
                 '';
+
                 installPhase = ''
                     mkdir -p $out
                     cp ${CMAKE_BUILD_DIR}/*.bin ${CMAKE_BUILD_DIR}/*.elf ${CMAKE_BUILD_DIR}/*.s $out
                 '';
             };
             defaultPackage.${system} = self.sample-f407vg;
+
             devShell.${system} = pkgs.mkShell {
-                nativeBuildInputs = [ self.sample-f407vg.nativeBuildInputs pkgs.gnumake ];
+                nativeBuildInputs = [ self.sample-f407vg.nativeBuildInputs pkgs.gnumake pkgs.clang-tools ];
+                LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_11.llvm ];
             };
         };
 }
