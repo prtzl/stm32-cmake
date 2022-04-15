@@ -41,10 +41,10 @@ arm-none-eabi-gdb (debugger)
 arm-none-eabi-binutils (utilities)
 ```
 
-**NOTE**. If your cmake fails to "compile a simple test program" while running the `Example`, then you might not have `newlib` installed (one of the errors I have encountered). In the examples above, fedora and arch carry the package separately, but ubuntu has it all in one.
+**NOTE**. If your cmake fails to "compile a simple test program" while running the example, then you might not have `newlib` installed (one of the errors I have encountered). In the examples above, fedora and arch carry the package separately, but ubuntu has it all in one.
 
 ## Example
-You can utilize everything in root of the repository. [Example](Example) folder has links to [Makefile](Makefile) and [gcc-arm-non-eabi.cmake](gcc-arm-none-eabi.cmake), but its own [CMakeLists.txt](Example/CMakeLists.txt)`. Since Unix links don't work on windows, delete them and copy over the original files.
+You can utilize everything in root of the repository to build an example project.
 
 ## Workflow
 

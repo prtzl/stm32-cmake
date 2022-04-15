@@ -15,4 +15,9 @@
 !.clang-format
 
 # EXAMPLE
-!Example
+!Core
+!Drivers
+!CubeMX
+!Project
+!STM32-project-template.ioc
+!.mxproject
