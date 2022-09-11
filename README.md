@@ -1,5 +1,7 @@
 # STM32 CMake project template
 
+This repository is not maintained anymore and is here for youtube viewers. New version of this repository is available [here](https://github.com/prtzl/stm32).
+
 ## Dependencies
 
 ```shell
